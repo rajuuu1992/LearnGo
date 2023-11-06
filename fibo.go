@@ -11,16 +11,26 @@ func fibo(num int) (res int) {
 	y:= 1
 
 	for i := 3; i<=num;i++ {
-		res = (x + y)
-		x = y
-		y = res
-		fmt.Printf("----%d, ", res)
+		x, y = y, x+y
+		// res = (x + y)
+		// x = y
+		// y = res
+		fmt.Printf("----%d %d, ", x, y)
 	}
 	// fmt.Println(x, y)
 	return res
 }
 
+func gcd (x, y int) int {
+	for y != 0 {
+		x, y = y, x%y
+	}
+	return x
+}
+
 func main() {
 	
-	fmt.Println(fibo(50))
+	// fmt.Println(fibo(50))
+
+	fmt.Println(gcd(100,30))
 }
