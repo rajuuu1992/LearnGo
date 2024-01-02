@@ -1,34 +1,34 @@
-package main
+package ll
 
 import "log"
 
 type LinkedList struct {
-	val  int
-	next *LinkedList
+	Val  int
+	Next *LinkedList
 }
 
-func main() {
-	head := &LinkedList{1, nil}
-	head.Add(2)
-	head.Add(3)
-	head.Add(4)
-	head.Add(5)
-	head.Print()
-	log.Printf(" Sum = %v", head.Sum())
+// func main() {
+// 	head := &LinkedList{1, nil}
+// 	head.Add(2)
+// 	head.Add(3)
+// 	head.Add(4)
+// 	head.Add(5)
+// 	head.Print()
+// 	log.Printf(" Sum = %v", head.Sum())
 
-}
+// }
 
 func (head *LinkedList) Sum() int {
 	if head == nil {
 		return 0
 	}
 
-	return head.val + head.next.Sum()
+	return head.Val + head.Next.Sum()
 }
 
 func (head *LinkedList) Print() {
-	for iter := head; iter != nil; iter = iter.next {
-		log.Printf(" --> %v ", iter.val)
+	for iter := head; iter != nil; iter = iter.Next {
+		log.Printf(" --> %v ", iter.Val)
 	}
 }
 
@@ -42,10 +42,10 @@ func (head *LinkedList) Add(val int) {
 	}
 
 	iter := head
-	for ; iter.next != nil; iter = iter.next {
+	for ; iter.Next != nil; iter = iter.Next {
 
 	}
 
-	iter.next = node
+	iter.Next = node
 	// return head
 }
