@@ -62,9 +62,11 @@ func deleteMovie(w http.ResponseWriter, r *http.Request) {
 			movies = append(movies[:index], movies[index+1:]...)
 			fmt.Fprintf(w, "Deleted Boss....Movie gone\n")
 			json.NewEncoder(w).Encode(item)
-			break
+			return
 		}
 	}
+	fmt.Fprintf(w, "Movie Not found boss")
+
 }
 
 func getMovie(w http.ResponseWriter, r *http.Request) {
@@ -95,13 +97,16 @@ func updateMovie(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	for index, item := range movies {
 		if item.ID == params["id"] {
+			fmt.Printf("  Id found = %s", params["id"])
 			movies = append(movies[:index], movies[index+1:]...)
 			var movie Movie
 			json.NewDecoder(r.Body).Decode(&movie)
 			movie.ID = params["id"]
 			movies = append(movies, movie)
 			json.NewEncoder(w).Encode(movie)
-			break
+			return
 		}
 	}
+
+	fmt.Fprintf(w, "Movie Not found boss,, what to update ??")
 }
