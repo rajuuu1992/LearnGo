@@ -1,17 +1,17 @@
 package lead
 
-
 import (
-	"github.com/rajuuu1992/crm-gofiber-basics/database"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/utils"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/gofiber/fiber/v2"
+	"github.com/rajuuu1992/crm-gofiber-basics/database"
 )
 
-type struct Lead {
+type Lead struct {
 	gorm.Model
-	Name string `json: "Name"`
-	Phone int   `json: "Phone"`
+	Name  string `json: "Name"`
+	Phone int    `json: "Phone"`
 	Email string `json: "email"`
 }
 
