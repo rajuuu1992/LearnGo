@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/jinzhu/gorm"
 	"github.com/rajuuu1992/crm-gofiber-basics/database"
 	"github.com/rajuuu1992/crm-gofiber-basics/lead"
