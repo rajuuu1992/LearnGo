@@ -2,10 +2,10 @@ package lead
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/utils"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/rajuuu1992/crm-gofiber-basics/database"
+	"fmt"
 )
 
 type Lead struct {
@@ -15,45 +15,43 @@ type Lead struct {
 	Email string `json: "email"`
 }
 
-func GetLeads(c *fiber.Ctx) error {
+func GetLeads(c *fiber.Ctx)  error {
 	var leads []Lead
-	db.Find(&leads)
+	database.DBConn.Find(&leads)
 	c.JSON(leads)
+	return nil
 }
 
-func GetLead(c *fiber.Ctx) error {
-	res := utils.CopyString(c.Params("id"))
-
+func GetLead(c *fiber.Ctx)  error {
+	id := c.Params("id")
 	var getLead Lead
-	db.Find(&getLead, id)
-	c.JSON(lead)
+	database.DBConn.Find(&getLead, id)
+	c.JSON(getLead)
+	return nil
 }
 
 func NewLead(c *fiber.Ctx) error {
-	params := c.Params("id")
-
 	lead := new(Lead)
 
 	if err := c.BodyParser(lead); err != nil {
-		c.Status(503).Send(err)
-		return
+		c.Status(503).Send([]byte("Can't create new error"))
+		return err
 	}
 	database.DBConn.Create(&lead)
 	c.JSON(lead)
+	c.Status(200).Send([]byte(fmt.Sprintf("Created New Lead %v", lead)))
+	return nil
 }
 
-func DeleteLead(c *fiber.Ctx) error {
-	params := c.Params("id")
-
-	// var lead Lead
-	// db.Where("ID=?", ID).Delete(lead)
-
+func DeleteLead(c *fiber.Ctx)  error {
+	id := c.Params("id")
 	var lead Lead
-	db.First(&lead, id)
+	database.DBConn.First(&lead, id)
 	if lead.Name == "" {
-		c.Status(500).Send("No lead found with Id")
-		return
+		c.Status(500).Send([]byte("No lead found with Id"))
+		return nil
 	}
-	db.Delete(&lead)
-	c.Send("Lead deleted successfully")
+	database.DBConn.Delete(&lead)
+	c.Send([]byte("Lead deleted successfully"))
+	return nil
 }

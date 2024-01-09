@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/rajuuu1992/crm-gofiber-basics/database"
 	"github.com/rajuuu1992/crm-gofiber-basics/lead"
+	"fmt"
 )
 
 func setupRoutes(app *fiber.App) {
@@ -17,11 +18,11 @@ func setupRoutes(app *fiber.App) {
 func initDatabase() {
 
 	var err error
-	database.DBConn, err := gorm.Open("sqlite3", "leads.db")
+	database.DBConn, err = gorm.Open("sqlite3", "leads.db")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printfln("DB Connect success")
+	fmt.Println("DB Connect success")
 	database.DBConn.AutoMigrate(&lead.Lead{})
 	fmt.Println("Database migrated")
 }
@@ -29,7 +30,10 @@ func main() {
 	app := fiber.New()
 	initDatabase()
 	setupRoutes(app)
-	app.Listen(7777)
+	if err := app.Listen(":7777"); err != nil {
+		fmt.Printf("Error while starting server: %v", err)
+		panic(err)
+	}
 
 	defer database.DBConn.Close()
 
